@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Chart from "../components/Chart";
 import { productData } from "../dataSeed";
 import { SelectActive } from "./AddUser";
 import { Publish } from "@mui/icons-material";
 import { AddButton } from "./User";
+import { useSelector } from "react-redux";
+import { userRequest } from "../requestMethod";
 
 const Container = styled.div`
   padding: 20px;
@@ -92,6 +94,7 @@ const Input = styled.input`
   padding: 10px 0;
   border: none;
   border-bottom: 1px solid #ddd;
+  width: 70%;
 `;
 const UpdateForm = styled.form`
   display: flex;
@@ -116,28 +119,67 @@ const UploadLabel = styled.label`
   text-align: center;
 `;
 const Product = () => {
+  const location = useLocation();
+  const productId = location.pathname.split("/")[2];
+  const [productStats, setProductStats] = useState([]);
+
+  const product = useSelector((state) =>
+    state.product.products.find((product) => product._id === productId)
+  );
+  const Months = useMemo(
+    () => [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    []
+  );
+  useEffect(() => {
+    const getStats = async () => {
+      try {
+        const res = await userRequest.get("orders/income?pid=" + productId);
+        const list = res.data.sort((a, b) => {
+          return a._id - b._id;
+        });
+        list.map((item) =>
+          setProductStats((prev) => [
+            ...prev,
+            { name: Months[item._id - 1], Sales: item.total },
+          ])
+        );
+      } catch {}
+    };
+    getStats();
+  }, [Months, productId]);
+  console.log(productStats);
   return (
     <Container>
       <Top>
-        <Title>Product</Title>
+        <Title>{product.title}</Title>
         <Link to="/addProduct">
           <AddButton>Add New Product</AddButton>
         </Link>
       </Top>
       <Main>
-        <Chart data={productData} dataKey="Sales" title="Sales Performance" />
+        <Chart data={productStats} dataKey="Sales" title="Sales Performance" />
         <MainRight>
           <ProductHead>
-            <img
-              src="https://images.indulgexpress.com/uploads/user/imagelibrary/2020/12/30/original/MacBookAirM1.jpg?w=400&dpr=2.6"
-              alt=""
-            />
-            <Title small>MacBook Air</Title>
+            <img src={product.image} alt="" />
+            <Title small>{product.title}</Title>
           </ProductHead>
           <ProductInfo>
             <InfoItem>
               <span>id</span>
-              <p>1234RTG</p>
+              <p>{product._id}</p>
             </InfoItem>
             <InfoItem>
               <span>sales</span>
@@ -149,35 +191,36 @@ const Product = () => {
             </InfoItem>
             <InfoItem>
               <span>in stock</span>
-              <p>Yes</p>
+              <p>{product.inStock}</p>
             </InfoItem>
           </ProductInfo>
         </MainRight>
       </Main>
       <ProductUpdate>
         <UpdateForm>
-          <Title small>Edit</Title>
+          <Title small>{product.title}</Title>
           <FormLabel htmlFor="name">
             <span>Name</span>
-            <Input name="name" placeholder="name" />
+            <Input name="name" placeholder={product.title} />
+          </FormLabel>
+          <FormLabel htmlFor="description">
+            <span>Description</span>
+            <Input name="description" placeholder={product.description} />
+          </FormLabel>
+          <FormLabel htmlFor="price">
+            <span>Price</span>
+            <Input name="price" placeholder={product.price} />
           </FormLabel>
           <FormLabel>
             <span>In Stock</span>
             <SelectActive name="inStock" id="inStock">
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </SelectActive>
-          </FormLabel>
-          <FormLabel>
-            <span>Status</span>
-            <SelectActive name="status" id="status">
-              <option value="published">Published</option>
-              <option value="draft">Draft</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
             </SelectActive>
           </FormLabel>
         </UpdateForm>
         <UploadImage>
-          <img src="https://images.indulgexpress.com/uploads/user/imagelibrary/2020/12/30/original/MacBookAirM1.jpg?w=400&dpr=2.6" />
+          <img src={product.image} />
           <UploadLabel htmlFor="file">
             <Publish fontSize="large" />
             <input type="file" id="file" style={{ display: "none" }} />

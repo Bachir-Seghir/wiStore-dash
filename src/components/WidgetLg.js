@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { userRequest } from "../requestMethod";
 import DataTable from "./DataTable";
 
 const Container = styled.div`
@@ -11,10 +12,21 @@ const Title = styled.h3`
   margin-bottom: 20px;
 `;
 const WidgetLg = () => {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const res = await userRequest.get("orders");
+        setOrders(res.data);
+      } catch {}
+    };
+    getOrders();
+  }, []);
   return (
     <Container>
       <Title>Latest Transactions</Title>
-      <DataTable />
+      <DataTable data={orders} />
     </Container>
   );
 };

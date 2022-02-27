@@ -8,34 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Avatar } from "@mui/material";
 import styled from "styled-components";
-
-function createData(avatar, name, date, amount, status) {
-  return { avatar, name, date, amount, status };
-}
-
-const rows = [
-  createData(
-    "https://www.w3schools.com/w3images/avatar2.png",
-    "John Emerik",
-    new Date().toDateString(),
-    "$133",
-    "approved"
-  ),
-  createData(
-    "https://www.w3schools.com/w3images/avatar2.png",
-    "Amir Dirik",
-    new Date().toDateString(),
-    "$233",
-    "pending"
-  ),
-  createData(
-    "https://www.w3schools.com/w3images/avatar2.png",
-    "Rima Smith",
-    new Date().toDateString(),
-    "$33",
-    "declined"
-  ),
-];
+import { format } from "timeago.js";
 
 const Status = styled.span`
   border-radius: 6px;
@@ -61,7 +34,7 @@ const Status = styled.span`
     }
   }};
 `;
-const DataTable = () => {
+const DataTable = ({ data }) => {
   return (
     <TableContainer component={Paper} style={{ boxShadow: "none" }}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -78,27 +51,27 @@ const DataTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((order) => (
             <TableRow
-              key={row.name}
+              key={order._id}
               sx={{ "& td, & th": { border: 0, textAlign: "left" } }}
             >
               <TableCell
                 component="th"
-                scope="row"
+                scope="order"
                 style={{ display: "flex", alignItems: "center" }}
               >
                 <Avatar
                   alt="customer"
-                  src={row.avatar}
+                  //src={order.avatar}
                   style={{ marginRight: 10 }}
                 />{" "}
-                {row.name}
+                {order.userId}
               </TableCell>
-              <TableCell align="right">{row.date}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+              <TableCell align="right">{format(order.createdAt)}</TableCell>
+              <TableCell align="right">{order.amount}</TableCell>
               <TableCell align="right">
-                <Status status={row.status}>{row.status}</Status>
+                <Status status={order.status}>{order.status}</Status>
               </TableCell>
             </TableRow>
           ))}
