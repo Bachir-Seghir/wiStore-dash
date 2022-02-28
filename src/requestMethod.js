@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://wistore-server.herokuapp.com/api/";
+const BASE_URL = process.env.REACT_APP_API_SERVER_URL;
 let token = "";
 if (!localStorage.getItem("persist:root")) {
   token = "";
