@@ -42,13 +42,26 @@ You may also see any lint errors in the console.
 
 
 ## API Server :
+Backend part is hosted on Heroku https://wistore-server.herokuapp.com/api/
+and puted by default in as api url in .env file 
 
-make sure to install Backend Part and run it via ; 
+If you want to customize the backend, clone it via :
+
+### `git clone https://github.com/Bachir-Seghir/REST-API.git`
+
+and make sure to install dependencies ; 
+
+### `npm install`
+
+* Update the api url in your .env file  
+REACT_APP_API_SERVER_URL=YOUR_API_URL 
+
+save it and run : 
 
 ### `npm run dev`
 
--- [Backend Part](https://github.com/Bachir-Seghir/REST-API.git). 
 
+## Build 
 
 ### `npm run build`
 
