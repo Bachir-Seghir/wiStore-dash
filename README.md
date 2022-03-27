@@ -24,15 +24,21 @@ This dashboard can manage all the content of the client side :
 
 First of all, clone the repository into your machine :
 
-### `git clone https://github.com/Bachir-Seghir/wiStore-dash.git`
+```sh
+git clone https://github.com/Bachir-Seghir/wiStore-dash.git
+```
 
 In the project directory install all dependencies,run:
 
-### `npm install`
+```sh
+npm install
+```
 
 In the project directory, start the server : 
 
-### `npm start`
+```sh
+npm start
+```
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -47,25 +53,33 @@ and puted by default in as api url in .env file
 
 If you want to customize the backend, clone it via :
 
-### `git clone https://github.com/Bachir-Seghir/REST-API.git`
+```sh
+git clone https://github.com/Bachir-Seghir/REST-API.git
+```
 
 and make sure to install dependencies ; 
 
-### `npm install`
+```sh
+npm install
+```
 
 * Update the api url in your .env file  
 REACT_APP_API_SERVER_URL=YOUR_API_URL 
 
 save it and run : 
 
-### `npm run dev`
+```sh 
+npm run dev
+```
 
 
 ## Build 
 
-### `npm run build`
+```sh
+npm run build
+```
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the ```build``` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 
