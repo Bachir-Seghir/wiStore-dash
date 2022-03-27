@@ -4,10 +4,10 @@ WiStore Dashboard is created with [Create React App](https://github.com/facebook
 
 This dashboard can manage all the content of the client side : 
 
-### Users
-### Products
-### Stats
-### SHADOW CRUD
+#### Users
+#### Products
+#### Stats
+#### SHADOW CRUD
 
 ## Libraries used
 
